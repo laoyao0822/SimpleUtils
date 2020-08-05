@@ -8,13 +8,21 @@ public class Stack <E>{
      * 取出并删除最后存入的元素
      * @return
      */
-    public synchronized E pop(){
+    public  E pop(){
         if (size==0)throw new RuntimeException("there is no item");
         E item= (E)items[size];
-        items[size]=null;
-        size--;
+        deletelast();
         return item;
     }
+    private synchronized void deletelast(){
+        items[size]=null;
+        size--;
+    }
+
+    /***
+     * 填加一个元素
+     * @param item
+     */
     public void push(E item){
         int len=items.length;
         size++;
@@ -24,6 +32,11 @@ public class Stack <E>{
         }
         items[size]=item;
     }
+
+    /***
+     * 查看该stack是否为空
+     * @return
+     */
     public boolean isEmpty(){
         if (size!=0){
             return false;

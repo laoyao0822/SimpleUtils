@@ -21,12 +21,12 @@ public class TestUtils {
     }
 
     /***
-     * 获取方法执行的时间
+     * 获取方法执行的时间及结果
      * @param method 执行方法
      * @param args 方法参数
      * @return 方法结果objects[0],执行时间objects[1]
      */
-    public static Object[] getMethodtime(Method method,Object...args){
+    public static Object[] getMethodtimeAndResult(Method method,Object obj,Object...args){
         long start=System.currentTimeMillis();
         Object object=null;
         try {
@@ -38,6 +38,59 @@ public class TestUtils {
         }
         long end=System.currentTimeMillis();
         return new Object[]{object,end-start};
+    }
+    public static Object[] getMethodtimeAndResult(Method method,Object obj){
+        long start=System.currentTimeMillis();
+        Object object=null;
+        try {
+            object=method.invoke(null,obj);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        long end=System.currentTimeMillis();
+        return new Object[]{object,end-start};
+    }
+    /***
+     * 获取方法执行的时间(执行100次取平均值)
+     * @param method 执行方法
+     * @param args 方法参数
+     * @return 方法耗时
+     */
+    public static long getMethodtime(Method method,Object obj,Object...args){
+        long start=System.currentTimeMillis();
+        try {
+            for (int i = 0; i <100; i++) {
+                method.invoke(obj, args);
+            }
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        long end=System.currentTimeMillis();
+        return (end-start)/100;
+    }
+    /***
+     * 获取方法执行的时间(执行100次取平均值)
+     * @param method 执行方法
+     * @param arg 方法参数
+     * @return 方法耗时
+     */
+    public static long getMethodtime(Method method,Object arg){
+        long start=System.currentTimeMillis();
+        try {
+            for (int i = 0; i <100; i++) {
+                method.invoke(null, arg);
+            }
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        long end=System.currentTimeMillis();
+        return (end-start)/100;
     }
 
 }
